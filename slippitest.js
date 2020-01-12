@@ -6,8 +6,8 @@ const path = require('path');
 let game = new SlippiGame('foxpeach1stock.slp');
 //displayPercentChanges(game);
 //displayMoves(game, 0);
-countSlowShines(game, 0, 1);
-
+//countSlowShines(game, 0, 1);
+countSlowWaveDashes(game, 0);
 
 function displayPercentChanges(game) {
     let lastPercentP1 = 0;
@@ -57,4 +57,17 @@ function countSlowShines(game, player, opponent) {
         oppPercent = frames[i].players[opponent].pre.percent;
     }
     console.log("Number of shines connected: "+numConnectedShines);
+}
+
+function countSlowWaveDashes(game, player) {
+    const frames = game.getFrames();
+    for(let i = 0; frames[i]!=undefined; i++) {
+        if(frames[i].players[player].pre.actionStateId===25) {
+            let firstFrame = i;
+            while(frames[i].players[player].post.actionStateId !== 43) {
+                i++;
+            }
+            console.log("Frame "+(1+i-firstFrame)+" wavedash.");
+        }
+    }
 }
